@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .divGiua{
+            display: flex;
+            justify-content: center;
+        }
+        .txtGiua{
+            text-align: center;
+        }
+        .logout-form {
+            position: fixed;  /* Đặt vị trí cố định */
+            top: 10px;  /* Cách 10px từ trên cùng */
+            right: 10px;  /* Cách 10px từ bên phải */
+        }
+    </style>
+</head>
+<body>
+<h1 class="txtGiua">Welcome to Spring Shop. Let shopping!</h1>
+
+<form th:action="@{/logout}" method="POST">
+    <button type="submit">Login/Logout</button>
+</form>
+
+
+
+<div class="divGiua">
+    <form th:action="@{/search}" method="get">
+        <input type="text" name="keyword" th:value="${keyword}" autofocus>
+        <button type="submit">Search</button>
+
+    </form>
+    <div th:if="${hasItemsInCart}">
+        <a href="/checkout">Check Out</a>
+    </div>
+</div>
+<hr>
+<!--    <img th:src="@{/img/1-image.jpg}">-->
+<div class="divGiua">
+    <div th:each="product : ${products}" style="margin: 20px;">
+        <p th:text="${product.getName()}" class="txtGiua"></p>
+        <p th:text="${product.getPrice()}" class="txtGiua"></p>
+        <div>
+            <img th:src="${product.getImageUrl()}">
+        </div>
+        <form th:action="@{/addToCart}" method="get">
+            <input type="hidden" name="productId" th:value="${product.id}" />
+            <input type="number" name="quantity" value="1" min="1" />
+            <button type="submit">Thêm vào giỏ hàng</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
